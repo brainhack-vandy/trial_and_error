@@ -1,20 +1,7 @@
-function processedAVdata = preprocessAVdata(rawData, mod)
+function processedAVdata = preprocessAVdata_combined(rawData)
     % Extract columns based on the new assignments
-    if strcmp(mod, "A")
-        stimulus = rawData(:, 1);
-        SNR = rawData(:, 2);
-    elseif strcmp(mod, "V")
-        stimulus = rawData(:, 3);
-        SNR = rawData(:, 4);
-    elseif strcmp(mod, "AV")
-        stimulus = rawData(:, [1, 3]);
-        SNR = rawData(:, [2, 4]);
-    elseif strcmp(mod, "N")
-        stimulus = rawData(:, [1, 3]); %change
-        SNR = rawData(:, [2, 4]);      %change
-    else
-        error("Invalid modality specified. Use 'A', 'V', or 'AV'.");
-    end
+    stimulus = rawData(:, [1, 3]);
+    SNR = rawData(:, [2, 4]);
 
     % Extract other columns
     response = rawData(:, 5); % Response
