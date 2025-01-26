@@ -6,28 +6,9 @@ fileName = 'Motion1_AV_cueAV.mat';
 load(fileName);
 rawData = data_output;
 
-% Determine modality from file name
-if contains(fileName, '_cueA')
-    mod = "A";
-elseif contains(fileName, '_cueV')
-    mod = "V";
-elseif contains(fileName, '_cueAV')
-    mod = "AV";
-elseif contains(fileName, '_nocue')
-    mod = "N";
-else
-    error('Could not determine modality from file name');
-end
+processedAVdata = preprocessAVdata_combined(rawData);
 
-processedAVdata = preprocessAVdata(rawData, mod);
-
-if strcmp(mod, "A") || strcmp(mod, "V")
-    processedAVdata = processedAVdata(processedAVdata.Stimulus ~= 0, :); % Filter for single column Stimulus
-elseif strcmp(mod, "AV")
-    processedAVdata = processedAVdata(all(processedAVdata.Stimulus ~= 0, 2), :); % Filter for two-column Stimulus
-elseif strcmp(mod, "N")
-    processedAVdata.Stimulus = []; % No Stimulus for nocue
-end
+processedAVdata = processedAVdata(all(processedAVdata.Stimulus ~= 0, 2), :);
 
 processedAVdata = processedAVdata(~isnan(processedAVdata.RT), :);
 
